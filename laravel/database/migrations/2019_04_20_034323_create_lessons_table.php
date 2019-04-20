@@ -17,7 +17,8 @@ class CreateLessonsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title')->nullable();
             $table->string('description')->nullable();
-            $table->string('author');
+            $table->json('topics')->nullable();
+            $table->string('user_id');
             $table->timestamps();
         });
     }

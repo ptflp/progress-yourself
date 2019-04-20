@@ -23,3 +23,10 @@ Route::post('user', 'UserController@store');
 Route::put('user/{id}', 'UserController@update');
 Route::delete('user/{id}', 'UserController@delete');
 Route::post('user/avatar', 'UserController@uploadAvatar');
+
+Route::get('lesson', 'LessonController@index');
+Route::get('lesson/{id}', 'LessonController@show');
+Route::post('lesson', 'LessonController@store');
+Route::put('lesson/{id}', 'LessonController@update');
+Route::delete('lesson/{id}', 'LessonController@delete');
+Route::post('lesson/avatar', 'LessonController@uploadAvatar');
