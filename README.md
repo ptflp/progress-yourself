@@ -2,7 +2,7 @@ INSTALLATION
 ============
 Clone this repo in your apps path
 ```
-git clone https://github.com/ptflp/fyafix.git
+git clone https://github.com/ptflp/progress-yourself.git
 ```
 
 Run in your cloned project path:
