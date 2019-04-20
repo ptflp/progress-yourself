@@ -6,7 +6,7 @@ services:
     build:
       context: ./docker-image/php
       dockerfile: Dockerfile
-    image: fyafix/php
+    image: laravel/php
     container_name: app
     restart: unless-stopped
     tty: true
