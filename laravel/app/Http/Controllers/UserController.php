@@ -19,6 +19,9 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+        ]);
         return User::create($request->all());
     }
 
@@ -41,24 +44,27 @@ class UserController extends Controller
     public function uploadAvatar(Request $request)
     {
         $request->validate([
-            'avatar' => 'required',
+            'photo' => 'required',
             'uid' => 'required'
         ]);
         $params = $request->all();
         $id = $params['uid'];
-        $image = $params['avatar'];
+        $image = $params['photo'];
         $path = '/images/user/' . $id;
         $destinationPath = public_path($path);
-        $name = time().'.jpg';
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0777, true);
+        }
+        $name = time().'.png';
         $dataPath = $path . "/" . $name;
-        $this->base64_to_jpeg($image, $dataPath);
+        $this->base64_to_jpeg($image, public_path($dataPath));
         $user = User::findOrFail($id);
         $user->avatar = $dataPath;
         $user->save();
         return $user;
     }
     
-    public function base64_to_jpeg($base64_string, $output_file) {
+    public function base64_to_jpeg($base64_string,  $output_file) {
         // open the output file for writing
         $ifp = fopen( $output_file, 'wb' ); 
     
