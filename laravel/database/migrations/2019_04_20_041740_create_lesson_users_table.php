@@ -17,6 +17,7 @@ class CreateLessonUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('lesson_id');
             $table->string('user_id');
+            $table->unique(['lesson_id', 'user_id']);
             $table->timestamps();
         });
     }

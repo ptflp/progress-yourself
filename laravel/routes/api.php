@@ -25,8 +25,10 @@ Route::delete('user/{id}', 'UserController@delete');
 Route::post('user/avatar', 'UserController@uploadAvatar');
 
 Route::get('lesson', 'LessonController@index');
+Route::post('lessons', 'LessonController@my');
 Route::get('lesson/{id}', 'LessonController@show');
+Route::post('lesson/join/{id}', 'LessonController@join');
 Route::post('lesson', 'LessonController@store');
 Route::put('lesson/{id}', 'LessonController@update');
-Route::delete('lesson/{id}', 'LessonController@delete');
 Route::post('lesson/avatar', 'LessonController@uploadAvatar');
+Route::delete('lesson/{id}', 'LessonController@delete');
