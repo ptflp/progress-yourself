@@ -25,6 +25,7 @@ Route::delete('user/{id}', 'UserController@delete');
 Route::post('user/avatar', 'UserController@uploadAvatar');
 
 Route::get('lesson', 'LessonController@index');
+Route::post('lesson/myrates/{id}', 'LessonController@showRate');
 Route::post('lessons', 'LessonController@my');
 Route::get('lesson/{id}', 'LessonController@show');
 Route::post('lesson/join/{id}', 'LessonController@join');

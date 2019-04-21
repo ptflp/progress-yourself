@@ -29,6 +29,34 @@ class LessonController extends Controller
         }])
         ->with('lesson.friends.user')
         ->get();
+        $avgs = [];
+        foreach ($lessons as $keyL => $lesson) {
+            $avgL = 0;
+            $index = 0;
+            $percent = 0;
+            foreach ($lesson->lesson->topics as $keyT => $topic) {
+                $avg = 0;
+                $i = 0;
+                if (count($topic->rates)>0) {
+                    foreach($topic->rates as $keyR => $rate) {
+                        $avg += $rate->value;
+                        $i++;
+                    }
+                    $avg = $avg / $i;
+                    $lessons[$keyL]->lesson->topics[$keyT]->avg = $avg;
+                    $avgL += $avg;
+                    $index++;
+                }
+            }
+            if ($index) {
+                $avgL = $avgL / $index;
+                $percent = $avgL * 100 / ($index * 5);
+            }
+            $lessons[$keyL]->lesson->avg = $avgL;
+            $lessons[$keyL]->lesson->percent = $percent;
+        }
+        
+        
         return $lessons;
     }
     
@@ -50,6 +78,14 @@ class LessonController extends Controller
         return $lesson;
     }
  
+    public function showRate(Request $request, $id)
+    {
+        $params = $request->all();
+        return Lesson::where('id',$id)->with('friends.user')->with('author')->with('topics')->with(['topics.rates' => function($q) use ($params) {
+           $q->where("rater_id","=",$params['uid']);
+        }])->first();
+    }
+    
     public function show($id)
     {
         return Lesson::where('id',$id)->with('friends.user')->with('author')->with('topics')->first();

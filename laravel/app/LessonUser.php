@@ -24,34 +24,34 @@ class LessonUser extends Model
         'created_at', 'updated_at', 'lesson_id', 'user_id', 'id'
     ];
     
-    protected $appends = array('rate');
+    // protected $appends = array('rate');
 
-    public function getRateAttribute()
-    {
-        $topics = Topic::where('lesson_id', $this->lesson_id)->get('id');
-        $ids = [];
-        $count = 0;
-        foreach ($topics as $item) {
-            $ids[] = $item->id;
-            $count++;
-        }
-        $maxScore = 5 * $count;
-        $rates = RateFriend::where('friend_id',$this->user_id)->whereIn('topic_id', $ids)->get('value');
-        $avg = $rates->avg('value');
-        $currentScore = 0;
-        $ratesA = [];
-        if ($rates) {
-            foreach ($rates as $rate) {
-                $currentScore =$currentScore + $rate->value;
-                $ratesA[] = $currentScore;
-            }
-        }
-        $percent = ($currentScore / $maxScore) * 100;
-        return [
-            'percent' => $percent,
-            'avg_rate' => round($avg,2)
-            ];
-    }
+    // public function getRateAttribute()
+    // {
+    //     $topics = Topic::where('lesson_id', $this->lesson_id)->get('id');
+    //     $ids = [];
+    //     $count = 0;
+    //     foreach ($topics as $item) {
+    //         $ids[] = $item->id;
+    //         $count++;
+    //     }
+    //     $maxScore = 5 * $count;
+    //     $rates = RateFriend::where('friend_id',$this->user_id)->whereIn('topic_id', $ids)->get('value');
+    //     $avg = $rates->avg('value');
+    //     $currentScore = 0;
+    //     $ratesA = [];
+    //     if ($rates) {
+    //         foreach ($rates as $rate) {
+    //             $currentScore =$currentScore + $rate->value;
+    //             $ratesA[] = $currentScore;
+    //         }
+    //     }
+    //     $percent = ($currentScore / $maxScore) * 100;
+    //     return [
+    //         'percent' => $percent,
+    //         'avg_rate' => round($avg,2)
+    //         ];
+    // }
     
     public function rules()
     {
