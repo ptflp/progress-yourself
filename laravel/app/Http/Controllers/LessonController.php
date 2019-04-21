@@ -24,7 +24,11 @@ class LessonController extends Controller
         $lessons = LessonUser::where('user_id', 1 )
         ->with('lesson.author')
         ->with('lesson.topics')
-        ->with('lesson.friends.user')->get();
+        ->with(['lesson.topics.rates' => function($q) use ($params) {
+           $q->where("friend_id","=",$params['uid']);
+        }])
+        ->with('lesson.friends.user')
+        ->get();
         return $lessons;
     }
     

@@ -12,6 +12,10 @@ class RateFriend extends Model
      * @var array
      */
     protected $fillable = [
-        'topic_id', 'rater_id', 'friend_id'
+        'topic_id', 'rater_id', 'friend_id', 'value'
+    ];
+    
+    protected $hidden = [
+        'created_at', 'updated_at'
     ];
 }

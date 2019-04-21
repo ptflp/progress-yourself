@@ -19,6 +19,7 @@ class CreateRateFriendsTable extends Migration
             $table->string('rater_id');
             $table->string('friend_id')->nullable();
             $table->string('value');
+            $table->unique(['topic_id', 'rater_id', 'friend_id']);
             $table->timestamps();
         });
     }

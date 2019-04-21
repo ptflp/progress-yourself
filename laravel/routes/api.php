@@ -32,3 +32,6 @@ Route::post('lesson', 'LessonController@store');
 Route::put('lesson/{id}', 'LessonController@update');
 Route::post('lesson/avatar', 'LessonController@uploadAvatar');
 Route::delete('lesson/{id}', 'LessonController@delete');
+
+
+Route::post('rate', 'RateFriendController@store');

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\RateFriend;
 
 class LessonUser extends Model
 {
@@ -22,6 +23,19 @@ class LessonUser extends Model
     protected $hidden = [
         'created_at', 'updated_at', 'lesson_id', 'user_id', 'id'
     ];
+    
+    protected $appends = array('rate_avg');
+
+    public function getRateAvgAttribute()
+    {
+        $topics = Topic::where('lesson_id', $this->lesson_id)->get('id');
+        $ids = [];
+        foreach ($topics as $item) {
+            $ids[] = $item->id;
+        }
+        return $ids;
+        // return RateFriend::where('friend_id',$this->user_id)->get('id');
+    }
     
     public function rules()
     {

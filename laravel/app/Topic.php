@@ -18,4 +18,9 @@ class Topic extends Model
     {
         return $this->belongsTo('App\Lesson', 'lesson_id', 'id');
     }
+    
+    public function rates()
+    {
+        return $this->hasMany('App\RateFriend', 'topic_id', 'id');
+    }
 }
