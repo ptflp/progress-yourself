@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Lesson;
 use App\Topic;
 use App\LessonUser;
+use App\RateFriend;
 
 class LessonController extends Controller
 {
@@ -78,12 +79,18 @@ class LessonController extends Controller
         return $lesson;
     }
  
-    public function showRate(Request $request, $id)
+    public function showRate(Request $request)
     {
+        $request->validate([
+            'uid' => 'required',
+            'user_id' => 'required',
+            'topic_id' => 'required',
+        ]);
         $params = $request->all();
-        return Lesson::where('id',$id)->with('friends.user')->with('author')->with('topics')->with(['topics.rates' => function($q) use ($params) {
-           $q->where("rater_id","=",$params['uid']);
-        }])->first();
+        
+        $rate = RateFriend::where('topic_id',$params['topic_id'])->where("rater_id","=",$params['uid'])->where("friend_id","=",$params['user_id'])->first();
+        
+        return ["value"=> $rate->value];
     }
     
     public function show($id)
