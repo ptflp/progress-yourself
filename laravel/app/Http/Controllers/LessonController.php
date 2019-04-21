@@ -88,9 +88,7 @@ class LessonController extends Controller
         ]);
         $params = $request->all();
         
-        $rate = RateFriend::where('topic_id',$params['topic_id'])->where("rater_id","=",$params['uid'])->where("friend_id","=",$params['user_id'])->first();
-        
-        return ["value"=> $rate->value];
+        return $rate = RateFriend::where('topic_id',$params['topic_id'])->where("rater_id","=",$params['uid'])->where("friend_id","=",$params['user_id'])->first();
     }
     
     public function show($id)
