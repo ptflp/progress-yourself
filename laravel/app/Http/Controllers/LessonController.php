@@ -11,7 +11,7 @@ class LessonController extends Controller
 {
     public function index()
     {
-        $lessons = Lesson::with('author')->with('friends')->with('friends.user')->get();
+        $lessons = Lesson::with('author')->with('friends')->with('topics')->with('friends.user')->get();
         return $lessons;
     }
     
@@ -21,7 +21,10 @@ class LessonController extends Controller
             'uid' => 'required',
         ]);
         $params = $request->all();
-        $lessons = LessonUser::where('user_id', 1 )->with('lesson.author')->get();
+        $lessons = LessonUser::where('user_id', 1 )
+        ->with('lesson.author')
+        ->with('lesson.topics')
+        ->with('lesson.friends.user')->get();
         return $lessons;
     }
     
@@ -30,7 +33,7 @@ class LessonController extends Controller
         $params = $request->all();
         $lesson = Lesson::findOrFail($id);
         if ($lesson) {
-            $friend = LessonUser::where('user_id',$params['uid'])->where('lesson_id', $lesson->id);
+            $friend = LessonUser::where('user_id',$params['uid'])->where('lesson_id', $lesson->id)->first();
             if (!$friend) {
                 $friend = new LessonUser;
                 $friend->user_id = $params['uid'];
@@ -38,13 +41,14 @@ class LessonController extends Controller
                 $friend->save();
             }
             $lesson->load('friends.user');
+            $lesson->load('topics');
         }
         return $lesson;
     }
  
     public function show($id)
     {
-        return Lesson::find($id);
+        return Lesson::where('id',$id)->with('friends.user')->with('author')->with('topics')->first();
     }
 
     public function store(Request $request)
